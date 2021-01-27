@@ -3,18 +3,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function WeatherApp({ Component, pageProps }) {
+function BlogApp({ Component, pageProps }) {
   return <Component {...pageProps} />;
 }
 
-WeatherApp.propTypes = {
+BlogApp.propTypes = {
   Component: PropTypes.func,
   pageProps: PropTypes.oneOfType([PropTypes.object]),
 };
 
-WeatherApp.defaultProps = {
+BlogApp.defaultProps = {
   Component: () => null,
   pageProps: {},
 };
 
-export default WeatherApp;
+export default BlogApp;
