@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
@@ -23,7 +24,8 @@ const useStyles = makeStyles({
   },
 });
 
-const createArticle = ({ values: { title, text }, onCloseModal }) => {
+const createArticle = ({ values: { title, text }, onCloseModal, setIsLoading }) => {
+  setIsLoading(true);
   fetch('https://jsonplaceholder.typicode.com/posts/', {
     method: 'POST',
     body: {
@@ -36,15 +38,14 @@ const createArticle = ({ values: { title, text }, onCloseModal }) => {
       toast.success('Post was successfuly created');
     })
     .catch(() => {
-      onCloseModal();
+      setIsLoading(false);
       toast.error('Failed to create a post');
     });
 };
-// TODO: PROPTYPES
-/* eslint-disable react/prop-types */
 
 const AddForm = ({ onCloseModal }) => {
   const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <Formik
       initialValues={{
@@ -53,7 +54,7 @@ const AddForm = ({ onCloseModal }) => {
       }}
       validationSchema={postValidationSchema}
       onSubmit={(values) => {
-        createArticle({ values, onCloseModal });
+        createArticle({ values, onCloseModal, setIsLoading });
       }}
     >
       {(formik) => (
@@ -86,6 +87,7 @@ const AddForm = ({ onCloseModal }) => {
             multiline
           />
           <Button
+            disabled={isLoading}
             color="primary"
             variant="contained"
             fullWidth
@@ -98,6 +100,10 @@ const AddForm = ({ onCloseModal }) => {
       )}
     </Formik>
   );
+};
+
+AddForm.propTypes = {
+  onCloseModal: PropTypes.func.isRequired,
 };
 
 export default AddForm;

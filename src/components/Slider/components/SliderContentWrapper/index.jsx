@@ -1,7 +1,5 @@
 import React from 'react';
-
-// TODO: PROPTYPES
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 
 const getWrapperStyle = ({ translate, transition, width }) => ({
   display: 'flex',
@@ -16,5 +14,12 @@ const SliderContentWrapper = ({ translate, transition, width, children }) => (
     {children}
   </div>
 );
+
+SliderContentWrapper.propTypes = {
+  translate: PropTypes.number.isRequired,
+  transition: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+};
 
 export default SliderContentWrapper;

@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import SliderContentWrapper from './components/SliderContentWrapper';
 import Arrow from './components/Arrow';
 import SliderItem from './components/SliderItem';
 
+const SLIDER_WIDTH = 1100;
+
+const getSliderWidth = () => SLIDER_WIDTH;
+
 const useStyles = makeStyles({
   mainSlider: {
     position: 'relative',
-    height: '800px',
-    width: '800px',
+    height: '500px',
+    width: `${getSliderWidth()}px`,
     margin: '0 auto',
     overflow: 'hidden',
   },
 });
-
-// TODO: PROPTYPES
-/* eslint-disable react/prop-types */
-
-const getWidth = () => 800;
 
 const Slider = ({ slides }) => {
   const firstSlide = slides[0];
@@ -26,7 +26,7 @@ const Slider = ({ slides }) => {
 
   const [state, setState] = useState({
     activeSlide: 0,
-    translate: getWidth(),
+    translate: getSliderWidth(),
     transition: 0.45,
     slidesBuffer: [lastSlide, firstSlide, secondSlide],
   });
@@ -42,7 +42,7 @@ const Slider = ({ slides }) => {
   }, [transition, state]);
 
   const handleResize = () => {
-    setState({ ...state, translate: getWidth(), transition: 0 });
+    setState({ ...state, translate: getSliderWidth(), transition: 0 });
   };
 
   const smoothTransition = () => {
@@ -60,14 +60,14 @@ const Slider = ({ slides }) => {
       ...state,
       slidesBuffer: slidesSmoothBuffer,
       transition: 0,
-      translate: getWidth(),
+      translate: getSliderWidth(),
     });
   };
 
   const nextSlide = () => {
     setState({
       ...state,
-      translate: translate + getWidth(),
+      translate: translate + getSliderWidth(),
       activeSlide: activeSlide === slides.length - 1 ? 0 : activeSlide + 1,
     });
   };
@@ -114,7 +114,7 @@ const Slider = ({ slides }) => {
       <SliderContentWrapper
         translate={translate}
         transition={transition}
-        width={getWidth() * slidesBuffer.length}
+        width={getSliderWidth() * slidesBuffer.length}
       >
         {slidesBuffer.map(({ id, imageSource, imageAltText, title, text, readMoreLink }) => (
           <SliderItem
@@ -124,7 +124,7 @@ const Slider = ({ slides }) => {
             title={title}
             text={text}
             readMoreLink={readMoreLink}
-            width={getWidth()}
+            width={getSliderWidth()}
           />
         ))}
       </SliderContentWrapper>
@@ -134,4 +134,14 @@ const Slider = ({ slides }) => {
   );
 };
 
-export default ({ slides }) => (slides.length === 0 ? null : <Slider slides={slides} />);
+Slider.propTypes = {
+  slides: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+};
+
+const ExportSlider = ({ slides }) => (slides.length < 3 ? null : <Slider slides={slides} />);
+
+ExportSlider.propTypes = {
+  slides: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+};
+
+export default ExportSlider;

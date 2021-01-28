@@ -16,7 +16,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'react/jsx-filename-extension': [1, { allow: 'as-needed' }],
+    'react/jsx-filename-extension': 0,
     'prettier/prettier': ['error'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],

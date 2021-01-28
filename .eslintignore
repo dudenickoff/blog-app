@@ -4,3 +4,4 @@ build/
 .next/
 .vscode/
 ./src/reportWebVitals.js
+./src/index.js

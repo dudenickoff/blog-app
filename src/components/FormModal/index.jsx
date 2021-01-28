@@ -1,6 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
 import { MODAL_ADD_POST, MODAL_EDIT_POST } from '../../constants/modalTypes';
 import AddForm from '../Modals/AddForm';
 import EditForm from '../Modals/EditForm';
@@ -18,8 +21,6 @@ const useStyles = makeStyles({
   },
 });
 
-// TODO: PROPTYPES
-/* eslint-disable react/prop-types */
 const FormModal = ({ type, modalIsOpen, onCloseModal, data }) => {
   const classes = useStyles();
   const getModalContent = () => {
@@ -41,4 +42,18 @@ const FormModal = ({ type, modalIsOpen, onCloseModal, data }) => {
   );
 };
 
+FormModal.propTypes = {
+  type: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.oneOf([null]).isRequired]),
+  modalIsOpen: PropTypes.bool.isRequired,
+  onCloseModal: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    postId: PropTypes.number,
+    title: PropTypes.string,
+    body: PropTypes.string,
+  }),
+};
+FormModal.defaultProps = {
+  type: null,
+  data: null,
+};
 export default FormModal;

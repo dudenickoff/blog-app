@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Typography, Card, CardMedia, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import RemoveIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+
 import { MODAL_EDIT_POST } from '../../../constants/modalTypes';
 
 const useStyles = makeStyles({
@@ -46,10 +47,9 @@ const useStyles = makeStyles({
   },
 });
 
-// TODO: PROPTYPES
-/* eslint-disable react/prop-types */
 const BlogGridItem = ({ title, body, deleteArticle, id, onOpenModal }) => {
   const classes = useStyles();
+  const [isRemoving, setIsRemoving] = useState(false);
 
   return (
     <Card className={classes.postWrapper}>
@@ -64,7 +64,8 @@ const BlogGridItem = ({ title, body, deleteArticle, id, onOpenModal }) => {
         color="secondary"
         aria-label="add"
         className={classes.removeButton}
-        onClick={() => deleteArticle(id)}
+        disabled={isRemoving}
+        onClick={() => deleteArticle({ id, setIsRemoving })}
       >
         <RemoveIcon />
       </Fab>
@@ -78,6 +79,14 @@ const BlogGridItem = ({ title, body, deleteArticle, id, onOpenModal }) => {
       </Fab>
     </Card>
   );
+};
+
+BlogGridItem.propTypes = {
+  onOpenModal: PropTypes.func.isRequired,
+  deleteArticle: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default BlogGridItem;

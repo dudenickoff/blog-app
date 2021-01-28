@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { Fab } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
@@ -30,13 +31,15 @@ const StyledFab = styled(Fab)((props) => ({
   },
 }));
 
-// TODO: PROPTYPES
-/* eslint-disable react/prop-types */
-
 const Arrow = ({ direction, handleClick }) => (
   <StyledFab onClick={() => handleClick()} direction={direction} color="primary">
     {direction === 'right' ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
   </StyledFab>
 );
+
+Arrow.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  direction: PropTypes.string.isRequired,
+};
 
 export default memo(Arrow);

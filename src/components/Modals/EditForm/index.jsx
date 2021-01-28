@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
@@ -22,7 +23,8 @@ const useStyles = makeStyles({
   },
 });
 
-const updateArticle = ({ values: { title, text }, onCloseModal, postId }) => {
+const updateArticle = ({ values: { title, text }, onCloseModal, postId, setIsLoading }) => {
+  setIsLoading(true);
   fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
     method: 'PUT',
     body: {
@@ -39,17 +41,16 @@ const updateArticle = ({ values: { title, text }, onCloseModal, postId }) => {
       toast.error('Failed to update a post');
     });
 };
-// TODO: PROPTYPES
-/* eslint-disable react/prop-types */
 
 const EditForm = ({ onCloseModal, postId, initialValues }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const classes = useStyles();
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={postValidationSchema}
       onSubmit={(values) => {
-        updateArticle({ values, onCloseModal, postId });
+        updateArticle({ values, onCloseModal, postId, setIsLoading });
       }}
     >
       {(formik) => (
@@ -82,6 +83,7 @@ const EditForm = ({ onCloseModal, postId, initialValues }) => {
             multiline
           />
           <Button
+            disabled={isLoading}
             color="primary"
             variant="contained"
             fullWidth
@@ -94,6 +96,12 @@ const EditForm = ({ onCloseModal, postId, initialValues }) => {
       )}
     </Formik>
   );
+};
+
+EditForm.propTypes = {
+  onCloseModal: PropTypes.func.isRequired,
+  postId: PropTypes.number.isRequired,
+  initialValues: PropTypes.shape({}).isRequired,
 };
 
 export default EditForm;

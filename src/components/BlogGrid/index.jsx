@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Loader from 'react-loader-spinner';
 import { toast } from 'react-toastify';
 import { Typography } from '@material-ui/core';
 
 import BlogGridItem from './BlogGridItem';
-// TODO: PROPTYPES
-/* eslint-disable react/prop-types */
+
 const BlogGrid = ({ onOpenModal }) => {
   const [articles, setArticles] = useState({ data: null, isLoading: true, isError: false });
 
@@ -26,7 +26,8 @@ const BlogGrid = ({ onOpenModal }) => {
     loadArticles();
   }, []);
 
-  const deleteArticle = (id) => {
+  const deleteArticle = ({ id, setIsRemoving }) => {
+    setIsRemoving(true);
     fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
       method: 'DELETE',
     })
@@ -37,6 +38,7 @@ const BlogGrid = ({ onOpenModal }) => {
         toast.success('Post was successfuly deleted');
       })
       .catch(() => {
+        setIsRemoving(false);
         toast.error('Unable to delete post');
       });
   };
@@ -70,6 +72,10 @@ const BlogGrid = ({ onOpenModal }) => {
       ))}
     </Grid>
   );
+};
+
+BlogGrid.propTypes = {
+  onOpenModal: PropTypes.func.isRequired,
 };
 
 export default BlogGrid;
