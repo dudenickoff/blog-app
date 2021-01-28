@@ -2,10 +2,9 @@ import React from 'react';
 import { Formik } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import { toast } from 'react-toastify';
-
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { toast } from 'react-toastify';
 
 import postValidationSchema from '../../../constants/postValidationSchema';
 
@@ -23,9 +22,9 @@ const useStyles = makeStyles({
   },
 });
 
-const createArticle = ({ values: { title, text }, onCloseModal }) => {
-  fetch('https://jsonplaceholder.typicode.com/posts/', {
-    method: 'POST',
+const updateArticle = ({ values: { title, text }, onCloseModal, postId }) => {
+  fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
+    method: 'PUT',
     body: {
       title,
       body: text,
@@ -33,27 +32,24 @@ const createArticle = ({ values: { title, text }, onCloseModal }) => {
   })
     .then(() => {
       onCloseModal();
-      toast.success('Post was successfuly created');
+      toast.success('The post was successfully updated');
     })
     .catch(() => {
       onCloseModal();
-      toast.error('Failed to create a post');
+      toast.error('Failed to update a post');
     });
 };
 // TODO: PROPTYPES
 /* eslint-disable react/prop-types */
 
-const AddForm = ({ onCloseModal }) => {
+const EditForm = ({ onCloseModal, postId, initialValues }) => {
   const classes = useStyles();
   return (
     <Formik
-      initialValues={{
-        title: '',
-        text: '',
-      }}
+      initialValues={initialValues}
       validationSchema={postValidationSchema}
       onSubmit={(values) => {
-        createArticle({ values, onCloseModal });
+        updateArticle({ values, onCloseModal, postId });
       }}
     >
       {(formik) => (
@@ -92,7 +88,7 @@ const AddForm = ({ onCloseModal }) => {
             className={classes.submitButton}
             type="submit"
           >
-            Create the post
+            Update the post
           </Button>
         </form>
       )}
@@ -100,4 +96,4 @@ const AddForm = ({ onCloseModal }) => {
   );
 };
 
-export default AddForm;
+export default EditForm;

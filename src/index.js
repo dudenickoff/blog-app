@@ -1,6 +1,18 @@
-/* eslint-disable import/prefer-default-export */
-export { default as BlogGrid } from './components/BlogGrid';
-export { default as AddForm } from './components/Modals/AddForm';
-export { default as FormModal } from './components/FormModal';
-export { default as NewPostButton } from './components/NewPostButton';
-export { default as Slider } from './components/Slider';
+// eslint-disable react/jsx-filename-extension
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();

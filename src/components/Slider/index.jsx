@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import SliderContentWrapper from './components/SliderContentWrapper';
 import Arrow from './components/Arrow';
 import SliderItem from './components/SliderItem';
 
-const sliderStyles = {
-  position: 'relative',
-  height: '800px',
-  width: '800px',
-  margin: '0 auto',
-  overflow: 'hidden',
-};
+const useStyles = makeStyles({
+  mainSlider: {
+    position: 'relative',
+    height: '800px',
+    width: '800px',
+    margin: '0 auto',
+    overflow: 'hidden',
+  },
+});
 
 // TODO: PROPTYPES
 /* eslint-disable react/prop-types */
@@ -28,9 +31,7 @@ const Slider = ({ slides }) => {
     slidesBuffer: [lastSlide, firstSlide, secondSlide],
   });
 
-  const {
-    activeSlide, translate, slidesBuffer, transition,
-  } = state;
+  const { activeSlide, translate, slidesBuffer, transition } = state;
 
   const transitionRef = useRef();
   const resizeRef = useRef();
@@ -38,7 +39,7 @@ const Slider = ({ slides }) => {
 
   useEffect(() => {
     if (transition === 0) setState({ ...state, transition: 0.45 });
-  }, [transition]);
+  }, [transition, state]);
 
   const handleResize = () => {
     setState({ ...state, translate: getWidth(), transition: 0 });
@@ -106,34 +107,31 @@ const Slider = ({ slides }) => {
     };
   }, []);
 
+  const classes = useStyles();
+
   return (
-    <div style={sliderStyles} ref={sliderRef}>
+    <div ref={sliderRef} className={classes.mainSlider}>
       <SliderContentWrapper
         translate={translate}
         transition={transition}
         width={getWidth() * slidesBuffer.length}
       >
-        {slidesBuffer.map(
-          ({
-            id, imageSource, imageAltText, title, text, readMoreLink,
-          }) => (
-            <SliderItem
-              key={id}
-              imageSource={imageSource}
-              imageAltText={imageAltText}
-              title={title}
-              text={text}
-              readMoreLink={readMoreLink}
-              width={getWidth()}
-            />
-          ),
-        )}
+        {slidesBuffer.map(({ id, imageSource, imageAltText, title, text, readMoreLink }) => (
+          <SliderItem
+            key={id}
+            imageSource={imageSource}
+            imageAltText={imageAltText}
+            title={title}
+            text={text}
+            readMoreLink={readMoreLink}
+            width={getWidth()}
+          />
+        ))}
       </SliderContentWrapper>
       <Arrow direction="left" handleClick={prevSlide} />
       <Arrow direction="right" handleClick={nextSlide} />
-
     </div>
   );
 };
 
-export default Slider;
+export default ({ slides }) => (slides.length === 0 ? null : <Slider slides={slides} />);

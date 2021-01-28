@@ -4,6 +4,8 @@ import { Typography, Card, CardMedia, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import RemoveIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import { MODAL_EDIT_POST } from '../../../constants/modalTypes';
 
 const useStyles = makeStyles({
   postWrapper: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles({
     fontWeight: '700',
     textTransform: 'uppercase',
     margin: '16px 0',
-    color: '#60dab7',
+    color: '#27A581',
   },
   postText: {
     fontWeight: '500',
@@ -35,11 +37,18 @@ const useStyles = makeStyles({
     opacity: 0,
     transition: 'opacity 0.5s',
   },
+  eidtButton: {
+    position: 'absolute',
+    top: '30px',
+    left: '100px',
+    opacity: 0,
+    transition: 'opacity 0.5s',
+  },
 });
 
 // TODO: PROPTYPES
 /* eslint-disable react/prop-types */
-const BlogGridItem = ({ title, body, deleteArticle, id }) => {
+const BlogGridItem = ({ title, body, deleteArticle, id, onOpenModal }) => {
   const classes = useStyles();
 
   return (
@@ -52,12 +61,20 @@ const BlogGridItem = ({ title, body, deleteArticle, id }) => {
       <Typography className={classes.postTitle}>{title}</Typography>
       <Typography className={classes.postText}>{body}</Typography>
       <Fab
-        color="primary"
+        color="secondary"
         aria-label="add"
         className={classes.removeButton}
         onClick={() => deleteArticle(id)}
       >
         <RemoveIcon />
+      </Fab>
+      <Fab
+        color="primary"
+        aria-label="edit"
+        className={classes.eidtButton}
+        onClick={() => onOpenModal({ type: MODAL_EDIT_POST, data: { title, body, postId: id } })}
+      >
+        <EditIcon />
       </Fab>
     </Card>
   );

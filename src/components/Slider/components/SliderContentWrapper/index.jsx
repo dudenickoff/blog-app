@@ -11,9 +11,7 @@ const getWrapperStyle = ({ translate, transition, width }) => ({
   width: `${width}px`,
 });
 
-const SliderContentWrapper = ({
-  translate, transition, width, children,
-}) => (
+const SliderContentWrapper = ({ translate, transition, width, children }) => (
   <div style={getWrapperStyle({ translate, transition, width })} className="sliderContentWrapper">
     {children}
   </div>

@@ -5,17 +5,19 @@ module.exports = {
     node: true,
     jest: true,
   },
-  extends: ['airbnb', 'airbnb/hooks', 'plugin:sonarjs/recommended'],
+  extends: ['airbnb', 'airbnb/hooks', 'plugin:sonarjs/recommended', 'prettier'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-  plugins: ['sonarjs'],
+  plugins: ['sonarjs', 'prettier'],
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
   rules: {
+    'react/jsx-filename-extension': [1, { allow: 'as-needed' }],
+    'prettier/prettier': ['error'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     indent: ['error', 2],

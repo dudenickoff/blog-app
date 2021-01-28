@@ -4,15 +4,8 @@ import { Typography } from '@material-ui/core';
 // TODO: PROPTYPES
 /* eslint-disable react/prop-types */
 
-const SliderItem = ({
-  imageSource,
-  imageAltText,
-  title,
-  text,
-  readMoreLink,
-  width,
-}) => (
-  <div style={{ maxWidth: width }}>
+const SliderItem = ({ imageSource, imageAltText, title, text, readMoreLink, width }) => (
+  <div style={{ width }}>
     <img src={imageSource} alt={imageAltText} style={{ width: '800px' }} />
     <div>
       <Typography>{title}</Typography>
