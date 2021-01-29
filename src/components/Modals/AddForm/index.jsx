@@ -35,7 +35,7 @@ const createArticle = ({ values: { title, text }, onCloseModal, setIsLoading }) 
   })
     .then(() => {
       onCloseModal();
-      toast.success('Post was successfuly created');
+      toast.success('The post was successfully created');
     })
     .catch(() => {
       setIsLoading(false);

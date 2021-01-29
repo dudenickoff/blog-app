@@ -11,9 +11,9 @@ yarn
 Then you could run project
 
 ```bash
-npm run dev
+npm start
 # or
-yarn dev
+yarn start
 ```
 
 Or create a build via

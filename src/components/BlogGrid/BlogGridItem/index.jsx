@@ -38,7 +38,7 @@ const useStyles = makeStyles({
     opacity: 0,
     transition: 'opacity 0.5s',
   },
-  eidtButton: {
+  editButton: {
     position: 'absolute',
     top: '30px',
     left: '100px',
@@ -72,7 +72,7 @@ const BlogGridItem = ({ title, body, deleteArticle, id, onOpenModal }) => {
       <Fab
         color="primary"
         aria-label="edit"
-        className={classes.eidtButton}
+        className={classes.editButton}
         onClick={() => onOpenModal({ type: MODAL_EDIT_POST, data: { title, body, postId: id } })}
       >
         <EditIcon />

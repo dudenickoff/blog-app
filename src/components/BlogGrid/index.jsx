@@ -35,7 +35,7 @@ const BlogGrid = ({ onOpenModal }) => {
         const { isLoading, data } = articles;
         const arrayWithoutDeletedPost = data.filter((post) => post.id !== id);
         setArticles({ isLoading, data: arrayWithoutDeletedPost });
-        toast.success('Post was successfuly deleted');
+        toast.success('The post was successfully deleted');
       })
       .catch(() => {
         setIsRemoving(false);
