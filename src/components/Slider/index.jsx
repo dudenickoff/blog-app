@@ -138,6 +138,11 @@ Slider.propTypes = {
   slides: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
+// This limitation was added due to the component for this moment have no logic to work with less than 3 items
+// This scenario will be fixed, logic should handle array with two items and with a single item
+// Will be added two cases, and the logic of additional functions should be adjusted.
+// In the case of one item controls should be hidden. In the case of two items, we should navigate between two.
+
 const ExportSlider = ({ slides }) => (slides.length < 3 ? null : <Slider slides={slides} />);
 
 ExportSlider.propTypes = {
